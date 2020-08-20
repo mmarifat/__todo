@@ -29,11 +29,24 @@ export default new Vuex.Store<StoreInterface>({
 		completeTodo(state, todo: ITodo) {
 			state.todo[state.todo.indexOf(todo)].completed = true;
 		},
-		clearCompleted(state) {
-			console.log(state.todo);
-			state.todo = state.todo.filter(c => c.completed !== true)
-			console.log(state.todo);
+		activeTodo(state, todo: ITodo) {
+			state.todo[state.todo.indexOf(todo)].completed = false;
 		},
+		clearCompleted(state) {
+			state.todo = state.todo.filter(c => c.completed !== true)
+		},
+		completeAll(state) {
+			state.todo = state.todo.map(a => {
+				a.completed = true
+				return a
+			})
+		},
+		activeAll(state) {
+			state.todo = state.todo.map(a => {
+				a.completed = false
+				return a
+			})
+		}
 	},
 	actions: {
 		addTodo(state, todo: string) {
@@ -48,9 +61,18 @@ export default new Vuex.Store<StoreInterface>({
 		completeTodo(state, todo: ITodo) {
 			state.commit("completeTodo", todo);
 		},
+		activeTodo(state, todo: ITodo) {
+			state.commit("activeTodo", todo);
+		},
 		clearCompleted(state) {
 			state.commit("clearCompleted");
 		},
+		completeAll(state) {
+			state.commit("completeAll");
+		},
+		activeAll(state) {
+			state.commit("activeAll");
+		}
 	},
 	getters: {
 		ALL: (state) => state.todo,

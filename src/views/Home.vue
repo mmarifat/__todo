@@ -6,36 +6,37 @@
 	    <v-text-field autocomplete="off" placeholder="Add something" single-line solo v-model="todo" @keyup.enter.native="createNew"/>
 	    
 	    <v-row class="pl-1">
-		<v-col class="text-right">
+		<v-col class="col-12 col-md text-md-right">
 		    <v-btn-toggle v-model="toggle" color="dark" group dense mandatory tile>
-			<v-btn :value="cStatus.ALL" text small v-html="'All'"/>
-			<v-btn :value="cStatus.ACTIVE" text small v-html="'Active'"/>
-			<v-btn :value="cStatus.COMPLETED" text small v-html="'Completed'"/>
+			<v-btn outlined :value="cStatus.ALL" text small v-html="'All'"/>
+			<v-btn outlined :value="cStatus.ACTIVE" text small v-html="'Active'"/>
+			<v-btn outlined :value="cStatus.COMPLETED" text small v-html="'Completed'"/>
 		    </v-btn-toggle>
-		    <v-btn @click="clearCompleted" text small v-html="'Clear Completed'" v-if="todos.some(check => check.completed === true)"/>
+		    <v-btn outlined @click="clearCompleted" text small v-html="'Clear Completed'"
+			   v-if="todos.some(check => check.completed === true)"/>
 		</v-col>
-		<v-col class="col-auto text-left pt-4 order-md-first">
-		    <span class="text-sm-caption">{{ todos.length }} item left</span>
+		<v-col class="col-12 col-md-auto text-center order-md-first pt-0">
+		    <v-checkbox dense v-model="completeAll" :label="todos.length+' item left'" @click="makeAllComplete"/>
 		</v-col>
 	    </v-row>
 	    
 	    <v-list>
 		<v-list-item v-for="item in todos" :key="item._id">
-		    <v-list-item-icon @click="completeTodo(item)">
+		    <v-list-item-icon @click="changeStatus(item)">
 			<v-tooltip top color="green darken-2">
 			    <template v-slot:activator="{ on, attrs }">
-				<v-icon v-bind="attrs" v-on="on" color="indigo accent-4" small>
+				<v-icon v-bind="attrs" v-on="on" :color="item.completed ? 'grey' : 'indigo accent-4'" small>
 				    {{ item.completed ? 'fa fa-check-circle' : 'fa fa-circle' }}
 				</v-icon>
 			    </template>
-			    <span>{{ item.completed ? 'Completed' : 'Make Complete' }}</span>
+			    <span>{{ item.completed ? 'Make Active' : 'Make Complete' }}</span>
 			</v-tooltip>
 		    </v-list-item-icon>
 		    
 		    <v-list-item-content>
 			<v-dialog v-model="show" persistent max-width="290">
 			    <template v-slot:activator="{ on, attrs }">
-				<span v-bind="attrs" v-on="on" class="text">
+				<span v-bind="attrs" v-on="on" :class="item.completed ? 'text-decoration-line-through grey--text' : ''">
 				    {{ item.name }}
 				</span>
 			    </template>
@@ -50,7 +51,7 @@
 		    <v-list-item-icon @click="deleteTodo(item)">
 			<v-tooltip top color="red darken-2">
 			    <template v-slot:activator="{ on, attrs }">
-				<v-icon v-bind="attrs" v-on="on" color="red accent-4" small>fa fa-trash</v-icon>
+				<v-icon v-bind="attrs" v-on="on" :color="item.completed ? 'grey' : 'red accent-4'" small>fa fa-times</v-icon>
 			    </template>
 			    <span>Remove</span>
 			</v-tooltip>
@@ -72,10 +73,12 @@ export default class Home extends Vue {
     toggle: CStatus = CStatus.ALL
     todo: string = null
     show: boolean = false
+    completeAll: boolean = false
     
     todos: Array<ITodo> = this.$store.getters.ALL
     
     @Watch('toggle')
+    @Watch('$store.state', {deep: true})
     remap() {
 	if (this.toggle === CStatus.ACTIVE)
 	    this.todos = this.$store.getters.Active
@@ -103,17 +106,23 @@ export default class Home extends Vue {
 	this.show = false
     }
     
-    completeTodo(row: ITodo) {
-	this.$store.dispatch("completeTodo", row)
+    changeStatus(row: ITodo) {
+	row.completed ? this.$store.dispatch("activeTodo", row) : this.$store.dispatch("completeTodo", row)
     }
     
-    clearCompleted(row: ITodo) {
+    clearCompleted() {
 	this.$store.dispatch("clearCompleted")
-	this.remap()
+	this.completeAll = false
+    }
+    
+    makeAllComplete() {
+	this.completeAll ? this.$store.dispatch("completeAll") : this.$store.dispatch('activeAll')
     }
 }
 </script>
 
 <style lang="scss">
-
+.v-list-item__icon {
+    cursor: pointer;
+}
 </style>
