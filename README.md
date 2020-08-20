@@ -1,4 +1,4 @@
-# q
+# Simple ToDo Application
 
 ## Project setup
 ```
