@@ -15,5 +15,8 @@ yarn serve
 yarn build
 ```
 
+### Preview
+See [TODO](https://todo.mma.trioaquad.com).
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
