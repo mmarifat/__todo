@@ -16,7 +16,7 @@ yarn build
 ```
 
 ### Preview
-See [TODO](https://todo.mma.trioaquad.com).
+See [TODO](https://todo.mma.trioquad.com).
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
