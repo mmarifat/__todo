@@ -37,7 +37,8 @@
 			<v-dialog v-model="show" persistent max-width="290">
 			    <template v-slot:activator="{ on, attrs }">
 				<span v-bind="attrs" v-on="on" :class="item.completed ? 'text-decoration-line-through grey--text' : ''">
-				    {{ item.name }}
+				    <v-chip label small :color="item.completed ? 'grey lighten-2': item.color">{{ item.name }}
+				    </v-chip>
 				</span>
 			    </template>
 			    <v-card>
@@ -124,5 +125,25 @@ export default class Home extends Vue {
 <style lang="scss">
 .v-list-item__icon {
     cursor: pointer;
+}
+
+.v-chip {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.v-chip span:hover {
+    display: inline-block;
+    padding-left: 10%;
+    animation: v-chip 10s linear infinite;
+}
+
+@keyframes v-chip {
+    0% {
+	transform: translate(0, 0);
+    }
+    100% {
+	transform: translate(-100%, 0);
+    }
 }
 </style>

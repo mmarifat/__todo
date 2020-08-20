@@ -1,5 +1,6 @@
 {
   "name": "q5",
+  "description": "A Simple TODO Application using Vue & Vuex",
   "version": "0.1.0",
   "private": true,
   "scripts": {
