@@ -4,8 +4,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --port 2222",
-    "build": "vue-cli-service build"
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "deploy": "node scripts/gh-pages-deploy.js"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
