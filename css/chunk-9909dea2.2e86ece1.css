@@ -1,0 +1,1 @@
+.v-list-item__icon{cursor:pointer}.v-chip{white-space:nowrap;overflow:hidden}.v-chip span:hover{display:inline-block;padding-left:10%;-webkit-animation:v-chip 10s linear infinite;animation:v-chip 10s linear infinite}@-webkit-keyframes v-chip{0%{transform:translate(0)}to{transform:translate(-100%)}}@keyframes v-chip{0%{transform:translate(0)}to{transform:translate(-100%)}}
